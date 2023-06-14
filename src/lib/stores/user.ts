@@ -3,12 +3,13 @@ import { writable } from 'svelte/store';
 interface User {
 	accessToken?: string;
 	balance?: number;
-	profile: Profile;
+	profile?: Profile;
 }
 
 interface Profile {
-	username: string;
-	bankTag: string;
+	firstName?: string;
+	lastName?: string;
+	avatar?: string;
 }
 
 const createUserStore = () => {
@@ -16,13 +17,27 @@ const createUserStore = () => {
 		accessToken: '',
 		balance: 0,
 		profile: {
-			username: '',
-			bankTag: ''
+			firstName: '',
+			lastName: '',
+			avatar: ''
 		}
 	};
 
 	const { subscribe, update, set } = writable<User>(initialState);
 
+	// Local function use only inside this environment
+	function _getCurrentState(): User {
+		let currentState: User;
+		const unsubscribe = subscribe((current) => {
+			console.log(`Running subscribe store method.`);
+			currentState = current;
+		});
+		unsubscribe();
+
+		return currentState;
+	}
+
+	// Utility function for this store
 	function updateUserToken(src: string): void {
 		if (!src)
 			throw new Error(`Incoming token is invalid datatype or undefined.`);
@@ -37,34 +52,32 @@ const createUserStore = () => {
 
 		const { accessToken } = _getCurrentState();
 
-		if (!accessToken)
+		if (!accessToken) {
 			throw new Error('Access token not found, Unable to fetch user profile');
+		}
+
+		//Assume you use fetch function to get user profile from API
+		const response: User = {
+			balance: 100,
+			profile: {
+				firstName: 'John',
+				lastName: 'Doe',
+				avatar: 'https://ui-avatars.com/api/?name=John+Doe'
+			}
+		};
 
 		//if response is valid
 		update((current: User) => {
 			return {
 				...current,
-				profile: {
-					username: src.username,
-					bankTag: src.bankTag
-				}
+				balance: response.balance,
+				profile: response.profile
 			};
 		});
 	}
 
 	function clear(): void {
 		set(initialState);
-	}
-
-	function _getCurrentState(): User {
-		let currentState: User;
-		const unsubscribe = subscribe((current) => {
-			console.log(`Running subscribe store method.`);
-			currentState = current;
-		});
-		unsubscribe();
-
-		return currentState;
 	}
 
 	return {
