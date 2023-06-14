@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { user } from './lib/stores/user';
+	import { user } from '$stores/user';
 
 	let newToken: string;
 </script>
