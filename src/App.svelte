@@ -2,10 +2,6 @@
 	import { user } from './lib/stores/user';
 
 	let newToken: string;
-	const responseUser = {
-		username: 'exoa0032',
-		bankTag: 'scb'
-	};
 </script>
 
 <main>
@@ -22,6 +18,6 @@
 	<pre style="text-align: left;">Store state: {JSON.stringify($user, null, 2)}</pre>
 
 	<button on:click="{() => user.updateUserToken(newToken)}"> Update token </button>
-	<button on:click="{() => user.fetchUserProfile(responseUser)}"> Fetch Profile </button>
+	<button on:click="{() => user.fetchUserProfile()}"> Fetch Profile </button>
 	<button on:click="{() => user.clear()}">Clear Session</button>
 </main>

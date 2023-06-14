@@ -39,17 +39,14 @@ const createUserStore = () => {
 
 	// Utility function for this store
 	function updateUserToken(src: string): void {
-		if (!src)
-			throw new Error(`Incoming token is invalid datatype or undefined.`);
+		if (!src) throw new Error(`Incoming token is invalid datatype or undefined.`);
 
 		update((current: User) => {
 			return { ...current, accessToken: src };
 		});
 	}
 
-	function fetchUserProfile(src: { username: string; bankTag: string }): void {
-		if (!src) throw new Error(`Source is invalid datatype.`);
-
+	function fetchUserProfile(): void {
 		const { accessToken } = _getCurrentState();
 
 		if (!accessToken) {
