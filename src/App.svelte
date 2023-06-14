@@ -18,16 +18,10 @@
 			placeholder="Enter your access token"
 		/>
 	</label>
-	<p>user Store:</p>
-	<pre style="text-align: left;">{JSON.stringify($user, null, 2)}</pre>
 
-	<button on:click="{() => user.updateUserToken(newToken)}">
-		Update token
-	</button>
+	<pre style="text-align: left;">Store state: {JSON.stringify($user, null, 2)}</pre>
 
-	<button on:click="{() => user.fetchUserProfile(responseUser)}">
-		Fetch Profile
-	</button>
-
+	<button on:click="{() => user.updateUserToken(newToken)}"> Update token </button>
+	<button on:click="{() => user.fetchUserProfile(responseUser)}"> Fetch Profile </button>
 	<button on:click="{() => user.clear()}">Clear Session</button>
 </main>
